@@ -1,0 +1,20 @@
+body {
+    background-color: #f0ab8d;
+    text-align: center;
+    color: black;
+}
+#dark-mode-btn {
+    margin-left: 80%;
+}
+div {
+    border: 5px dotted black;
+    margin: 20px;
+    font-family: comic sans ms;
+}
+.dark-mode {
+    background-color: #222831;
+    color: #f6e4ad;
+}
+.div-mode {
+    border: 5px dotted #f6e4ad;
+}
