@@ -11,14 +11,14 @@ const questions = [{
     q: "Vilka av dessa druvor är gröna?",
     a: [{ text: "Chardonnay", rightAnswer: 3 },
     { text: "Cabernet Sauvignon", rightAnswer: 0 },
-    { text: "Cabernet Franc", rightAnswer: 3 },
-    { text: "Merlot", rightAnswer: 4 }
+    { text: "Vinho Verde", rightAnswer: 3 },
+    { text: "Riesling", rightAnswer: 4 }
     ]
 }, {
     id: 3,
     q: "Det går att göra vitt vin på blå druvor?",
-    a: [{ text: "Sant", rightAnswer: 0 },
-    { text: "Falskt", rightAnswer: 10 },
+    a: [{ text: "Sant", rightAnswer: 10 },
+    { text: "Falskt", rightAnswer: 0 },
     ]
 }, {
     id: 4,
@@ -60,7 +60,7 @@ const questions = [{
     ]
 }, {
     id: 9,
-    q: "Vilka smaker hittar du i ett klassisk Beujolais?",
+    q: "Vilken smaker hittar du i ett klassisk Beujolais?",
     a: [{ text: "Jordgubb", rightAnswer: 10 },
     { text: "Peppar", rightAnswer: 0 },
     { text: "Plommon", rightAnswer: 0 },
@@ -68,11 +68,11 @@ const questions = [{
     ]
 }, {
     id: 10,
-    q: "Vilket djur kan man inte ta med till skolan?",
-    a: [{ text: "Orm", rightAnswer: 10 },
-    { text: "Katt", rightAnswer: 0 },
-    { text: "Hund", rightAnswer: 0 },
-    { text: "Lunchlåda", rightAnswer: 0 }
+    q: "Vilken av följande druvor får inte finnas i en Champagne?",
+    a: [{ text: "Pinot Noir", rightAnswer: 0 },
+    { text: "Savignion Blanc", rightAnswer: 10 },
+    { text: "Chardonnay", rightAnswer: 0 },
+    { text: "Pinot Meunier", rightAnswer: 0 }
     ]
 }
 ];
