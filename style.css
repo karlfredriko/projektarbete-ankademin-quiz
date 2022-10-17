@@ -9,6 +9,11 @@ body {
 div {
     border: 5px dotted black;
     margin: 20px;
+    padding: 10px;
+    font-family: comic sans ms;
+}
+.question-frame{
+    border: hidden;
     font-family: comic sans ms;
 }
 .dark-mode {
