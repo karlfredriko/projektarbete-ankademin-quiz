@@ -1,85 +1,89 @@
 const questions = [{
-    id: 1,
+    id: 0,
     q: "Vilken druva är troligtvis ett vin från Etna gjort av?",
-    a: [{ text: "Pinot Noir", rightAnswer: 0 },
-    { text: "Grenache", rightAnswer: 0 },
-    { text: "Nerello Mascalese", rightAnswer: 10 },
-    { text: "Malbeck", rightAnswer: 0 }
+    a: [{ text: "Pinot Noir", points: 1 },
+    { text: "Grenache", points: 1 },
+    { text: "Nerello Mascalese", points: 10 },
+    { text: "Malbeck", points: 1 }
+    ]
+}, {
+    id: 1,
+    q: "Vilka av dessa druvor är gröna?",
+    a: [{ text: "Chardonnay", points: 3 },
+    { text: "Cabernet Sauvignon", points: 1 },
+    { text: "Vinho Verde", points: 3 },
+    { text: "Riesling", points: 4 }
     ]
 }, {
     id: 2,
-    q: "Vilka av dessa druvor är gröna?",
-    a: [{ text: "Chardonnay", rightAnswer: 3 },
-    { text: "Cabernet Sauvignon", rightAnswer: 0 },
-    { text: "Vinho Verde", rightAnswer: 3 },
-    { text: "Riesling", rightAnswer: 4 }
+    q: "Det går att göra vitt vin på blå druvor?",
+    a: [{ text: "Sant", points: 10 },
+    { text: "Falskt", points: 1 },
     ]
 }, {
     id: 3,
-    q: "Det går att göra vitt vin på blå druvor?",
-    a: [{ text: "Sant", rightAnswer: 10 },
-    { text: "Falskt", rightAnswer: 0 },
+    q: "Den röda färgen i vinet kommer från skalen?",
+    a: [{ text: "Sant", points: 10 },
+    { text: "Falskt", points: 1 },
     ]
 }, {
     id: 4,
-    q: "Den röda färgen i vinet kommer från skalen?",
-    a: [{ text: "Sant", rightAnswer: 10 },
-    { text: "Falskt", rightAnswer: 0 },
+    q: "'Blaufränkisch' är en druva som är vanligast var?",
+    a: [{ text: "Ungern", points: 10 },
+    { text: "Österike", points: 1 },
+    { text: "Slovakien", points: 1 },
+    { text: "Kroatien", points: 1 }
     ]
 }, {
     id: 5,
-    q: "'Blaufränkisch' är en druva som är vanligast var?",
-    a: [{ text: "Ungern", rightAnswer: 10 },
-    { text: "Österike", rightAnswer: 0 },
-    { text: "Slovakien", rightAnswer: 0 },
-    { text: "Kroatien", rightAnswer: 0 }
+    q: "Vilken blandning av druvor är vanlig i Rhône?",
+    a: [{ text: "SMG Blend", points: 1 },
+    { text: "GGS Blend", points: 1 },
+    { text: "MGS Blend", points: 1 },
+    { text: "GSM Blend", points: 10 }
     ]
 }, {
     id: 6,
-    q: "Vilken blandning av druvor är vanlig i Rhône?",
-    a: [{ text: "SMG Blend", rightAnswer: 0 },
-    { text: "GGS Blend", rightAnswer: 0 },
-    { text: "MGS Blend", rightAnswer: 0 },
-    { text: "GSM Blend", rightAnswer: 10 }
+    q: "Vart kommer en Cava ifrån?",
+    a: [{ text: "Spanien", points: 10 },
+    { text: "Katalonien", points: 1 },
+    { text: "Ungern", points: 1 },
+    { text: "Portugal", points: 1 }
     ]
 }, {
     id: 7,
-    q: "Vart kommer en Cava ifrån?",
-    a: [{ text: "Spanien", rightAnswer: 10 },
-    { text: "Katalonien", rightAnswer: 0 },
-    { text: "Ungern", rightAnswer: 0 },
-    { text: "Portugal", rightAnswer: 0 }
+    q: "Vilka av dessa viner kommer ifrån Italien?",
+    a: [{ text: "Nebbiolo", points: 4 },
+    { text: "Pinot Grigio", points: 3 },
+    { text: "Lambrusco", points: 3 },
+    { text: "Beujolais", points: 1 }
     ]
 }, {
     id: 8,
-    q: "Vilka av dessa viner kommer ifrån Italien?",
-    a: [{ text: "Nebbiolo", rightAnswer: 4 },
-    { text: "Pinot Grigio", rightAnswer: 3 },
-    { text: "Lambrusco", rightAnswer: 3 },
-    { text: "Beujolais", rightAnswer: 0 }
+    q: "Vilken smak hittar du i ett klassisk Beujolais?",
+    a: [{ text: "Jordgubb", points: 10 },
+    { text: "Peppar", points: 1 },
+    { text: "Plommon", points: 1 },
+    { text: "Kalk", points: 1 }
     ]
 }, {
     id: 9,
-    q: "Vilken smaker hittar du i ett klassisk Beujolais?",
-    a: [{ text: "Jordgubb", rightAnswer: 10 },
-    { text: "Peppar", rightAnswer: 0 },
-    { text: "Plommon", rightAnswer: 0 },
-    { text: "Kalk", rightAnswer: 0 }
-    ]
-}, {
-    id: 10,
     q: "Vilken av följande druvor får inte finnas i en Champagne?",
-    a: [{ text: "Pinot Noir", rightAnswer: 0 },
-    { text: "Savignion Blanc", rightAnswer: 10 },
-    { text: "Chardonnay", rightAnswer: 0 },
-    { text: "Pinot Meunier", rightAnswer: 0 }
+    a: [{ text: "Pinot Noir", points: 1 },
+    { text: "Savignion Blanc", points: 10 },
+    { text: "Chardonnay", points: 1 },
+    { text: "Pinot Meunier", points: 1 }
     ]
 }
 ];
 
 console.log("JS is present.");
+console.log(questions[0].a[0].text)
 let darkmodeBtn = document.querySelector("#dark-mode-btn");
 let startBtn = document.querySelector("#start-btn");
+let h1 = document.querySelector("h1");
+
+h1.addEventListener("click", () => h1.innerText = "Ankadevin Quiz Applikation")
 
 darkmodeBtn.addEventListener("click", () => {
     let div = document.querySelector("div");
@@ -87,32 +91,31 @@ darkmodeBtn.addEventListener("click", () => {
     document.body.classList.toggle("dark-mode");
 });
 let displayQuiz = () => {
-    console.log("Hi again")
+    console.log("running displayQuiz func");
     let div = document.querySelector("div");
-    //div.innerHTML = ""
-    let ul = document.createElement("ul");
-    div.appendChild(ul);
-    questions.forEach((i) => {
-        if (i.question) {
-            console.log(i);
-            let h2 = document.createElement("h2");
-            h2.innerText = i.value;
-            div.appendChild(h2);
-        } else {
-            i.forEach((i) => {
-                console.log(i);
-                let ul = document.querySelector("ul");
-                let li = document.createElement("li");
-                li.innerText = i.value;
-                ul.appendChild(li);
-            })
-        }
-    })
-    
-}
+    div.innerHTML = "";
+    questions.forEach(i => {
+        let p = document.createElement("p");
+        p.innerText = i.q;
+        div.appendChild(p);
+        for (let tot = 0; tot < i.a.length; tot++) {
+            let radio = document.createElement("input");
+            let label = document.createElement("label");
+            radio.type = "radio";
+            radio.name = "answer";
+            radio.id = `answer${tot}`;
+            radio.value = i.a[tot].points;
+            label.htmlFor = `answer${tot}`;
+            let labelText = document.createTextNode(i.a[tot].text);
+            label.appendChild(labelText);
+            div.append(radio);
+            div.append(label);
+            }
+    });
+};
 
 startBtn.addEventListener("click", () => {
-    console.log("HI");
+    console.log("Pressing btn");
     displayQuiz();
 });
 
