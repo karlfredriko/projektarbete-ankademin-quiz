@@ -88,28 +88,31 @@ const questions = [{
 ];
 
 console.log("JS is present.");
-//console.log(questions[0].a[0].text)
 let darkmodeBtn = document.querySelector("#dark-mode-btn");
 let startBtn = document.querySelector("#start-btn");
 let h1 = document.querySelector("h1");
-
-h1.addEventListener("click", () => h1.innerText = "Ankadevin Quiz Applikation")
+let userAnswer = [];
+//easter egg
+h1.addEventListener("click", () => h1.innerText = "Ankadevin Quiz Applikation");
+//darkmode function
 darkmodeBtn.addEventListener("click", () => {
     let borderDiv = document.querySelector("#border");
     borderDiv.classList.toggle("div-mode");
     document.body.classList.toggle("dark-mode");
 });
+//displaying quiz
 let displayQuiz = () => {
-    console.log("running displayQuiz func");
+    console.log("running displayQuiz()");
     let div = document.querySelector("div");
     div.innerHTML = "";
     questions.forEach(i => {
         let newDiv = document.createElement("div");
+        newDiv.id = i.no;
         newDiv.classList.add("question-frame")
         let p = document.createElement("p");
         p.innerText = i.q;
         newDiv.appendChild(p);
-        for (let tot = 0; tot < i.a.length; tot++) {
+        for (let num = 0; num < i.a.length; num++) {
             let input = document.createElement("input");
             if (!i.multi) {
                 input.type = "radio";
@@ -118,10 +121,10 @@ let displayQuiz = () => {
             }
             let label = document.createElement("label");
             input.name = "answer";
-            input.id = `answer${tot}`;
-            input.value = i.a[tot].points;
-            label.htmlFor = `answer${tot}`;
-            let labelText = document.createTextNode(i.a[tot].text);
+            input.id = `answer${num}`;
+            input.value = i.a[num].points;
+            label.htmlFor = `answer${num}`;
+            let labelText = document.createTextNode(i.a[num].text);
             label.appendChild(labelText);
             newDiv.append(input);
             newDiv.append(label);
@@ -132,9 +135,24 @@ let displayQuiz = () => {
         newDiv.append(br);
         newDiv.append(submitBtn);
         div.append(newDiv)
-
+        let allInputs = newDiv.querySelectorAll("input");
+        submitBtn.addEventListener("click", (e) => {
+            let parent = e.target.parentNode;
+            userAnswer[parent.id].push({
+                answer: 0
+            });
+            parent.childNodes.forEach(i => {
+                if (i.checked && i.type === "radio") {
+                    userAnswer[i.parentNode.id].answer = +i.value;
+                } else if (i.checked && i.type === "checkbox") {
+                    userAnswer[i.parentNode.id].answer += +i.value;
+                }
+            })
+            console.log(userAnswer)
+        });
     });
 };
+
 startBtn.addEventListener("click", () => displayQuiz());
 
 
