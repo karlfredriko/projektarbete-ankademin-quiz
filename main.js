@@ -197,6 +197,7 @@ let displayQuiz = (arr) => {
     })
 };
 // displaying score and coloring text
+// function takes two arrays as arguments.
 let showResult = (q,a) => {
     div.innerHTML = "";
     let totalScore = 0;
@@ -216,12 +217,20 @@ let showResult = (q,a) => {
             div.append(question);
         }
     })
+    let p = document.createElement("p");
+    p.setAttribute("id", "result");
     if (totalScore<50) {
-        alert("Du fick Underkänt:(")
+        p.innerText = "Du fick Underkänt, testa igen!";
+        p.style.color = "red";
+        div.append(p);
     } else if (totalScore < 75) {
-        alert("Du fick Godkänt")
+        p.innerText = "Du fick Godkänt";
+        p.style.color = "yellow";
+        div.append(p);
     } else {
-        alert("Du fick Mycket väl godkänt, Bravo!")
+        p.innerText = "Du fick Mycket väl godkänt, Bravo!";
+        p.style.color = "green";
+        div.append(p);
     }
 }
 // saving results in array
@@ -244,10 +253,10 @@ let saveAnswers = (arr) => {
         //console.log(userAnswer);
     };
 };
-//adding 
+//adding function to startBtn
 startBtn.addEventListener("click", () =>
     //displayQuiz(questions)
-    showResult(questions,underHalfCorrect));
+    showResult(questions,allCorrect));
 
 
 
