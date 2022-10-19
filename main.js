@@ -86,12 +86,61 @@ const questions = [{
     multi: false
 }
 ];
+const userAnswers = [
+    { answer: 0 },
+    { answer: 0 },
+    { answer: 0 },
+    { answer: 0 },
+    { answer: 0 },
+    { answer: 0 },
+    { answer: 0 },
+    { answer: 0 },
+    { answer: 0 },
+    { answer: 0 }
+];
+const overHalfCorrect = [
+    { answer: 10 },
+    { answer: 10 },
+    { answer: 10 },
+    { answer: 10 },
+    { answer: 10 },
+    { answer: 10 },
+    { answer: 0 },
+    { answer: 0 },
+    { answer: 0 },
+    { answer: 0 }
+];
+const underHalfCorrect = [
+    { answer: 10 },
+    { answer: 10 },
+    { answer: 10 },
+    { answer: 10 },
+    { answer: 0 },
+    { answer: 0 },
+    { answer: 0 },
+    { answer: 0 },
+    { answer: 0 },
+    { answer: 0 }
+];
+const allCorrect = [
+    { answer: 10 },
+    { answer: 10 },
+    { answer: 10 },
+    { answer: 10 },
+    { answer: 10 },
+    { answer: 10 },
+    { answer: 10 },
+    { answer: 10 },
+    { answer: 10 },
+    { answer: 10 }
+];
 
 console.log("JS is present.");
 let darkmodeBtn = document.querySelector("#dark-mode-btn");
 let startBtn = document.querySelector("#start-btn");
+let div = document.querySelector("div");
 let h1 = document.querySelector("h1");
-let userAnswer = [];
+
 //easter egg
 h1.addEventListener("click", () => h1.innerText = "Ankadevin Quiz Applikation");
 //darkmode function
@@ -101,16 +150,15 @@ darkmodeBtn.addEventListener("click", () => {
     document.body.classList.toggle("dark-mode");
 });
 //displaying quiz
-let displayQuiz = () => {
+let displayQuiz = (arr) => {
     console.log("running displayQuiz()");
-    let div = document.querySelector("div");
     div.innerHTML = "";
-    questions.forEach(i => {
+    arr.forEach(i => {
         let newDiv = document.createElement("div");
         newDiv.id = i.no;
         newDiv.classList.add("question-frame")
         let p = document.createElement("p");
-        p.innerText = i.q;
+        p.innerText = `${i.no+1}. ${i.q}`;
         newDiv.appendChild(p);
         for (let num = 0; num < i.a.length; num++) {
             let input = document.createElement("input");
@@ -131,29 +179,75 @@ let displayQuiz = () => {
         };
         let submitBtn = document.createElement("button");
         let br = document.createElement("br");
-        submitBtn.innerText = "Submit";
+        submitBtn.innerText = "Spara svar";
         newDiv.append(br);
         newDiv.append(submitBtn);
         div.append(newDiv)
-        let allInputs = newDiv.querySelectorAll("input");
-        submitBtn.addEventListener("click", (e) => {
-            let parent = e.target.parentNode;
-            userAnswer[parent.id].push({
-                answer: 0
-            });
-            parent.childNodes.forEach(i => {
-                if (i.checked && i.type === "radio") {
-                    userAnswer[i.parentNode.id].answer = +i.value;
-                } else if (i.checked && i.type === "checkbox") {
-                    userAnswer[i.parentNode.id].answer += +i.value;
-                }
-            })
-            console.log(userAnswer)
+        submitBtn.addEventListener("click", () => {
+            saveAnswers(userAnswers);
         });
     });
+    let br = document.createElement("br");
+    let showResultBtn = document.createElement("button");
+    showResultBtn.innerText = "Visa resultat!"
+    div.append(br);
+    div.append(showResultBtn);
+    showResultBtn.addEventListener("click", () => {
+        showResult(questions,userAnswers);
+    })
 };
-
-startBtn.addEventListener("click", () => displayQuiz());
+// displaying score and coloring text
+let showResult = (q,a) => {
+    div.innerHTML = "";
+    let totalScore = 0;
+    a.forEach((i) => totalScore += i.answer);
+    console.log(totalScore);
+    q.forEach((i) => {
+        //console.log(a[i.no].answer)
+        if (a[i.no].answer === 10) {
+            let question = document.createElement("p");
+            question.innerText = ` ${i.q}
+            Rätt svar!`
+            div.append(question);
+        } else {
+            let question = document.createElement("p");
+            question.innerText = ` ${i.q}
+            Fel svar!`
+            div.append(question);
+        }
+    })
+    if (totalScore<50) {
+        alert("Du fick Underkänt:(")
+    } else if (totalScore < 75) {
+        alert("Du fick Godkänt")
+    } else {
+        alert("Du fick Mycket väl godkänt, Bravo!")
+    }
+}
+// saving results in array
+let saveAnswers = (arr) => {
+    let parent = event.target.parentNode;
+    let nodeList = parent.childNodes;
+    console.log("running saveAnswers()")
+    if (arr[parent.id].answer === 0) {
+        for (let i = 0; i < nodeList.length; i++) {
+            if (nodeList[i].checked && nodeList[i].type === "radio") {
+                arr[parent.id].answer = +nodeList[i].value;
+                event.target.remove();
+            } else if (nodeList[i].checked && nodeList[i].type === "checkbox") {
+                arr[parent.id].answer += +nodeList[i].value;
+                event.target.remove();
+            } else if (i === nodeList.length - 1 && arr[parent.id].answer === 0) {
+                alert("Du måste svara;)");
+            }
+        };
+        //console.log(userAnswer);
+    };
+};
+//adding 
+startBtn.addEventListener("click", () =>
+    //displayQuiz(questions)
+    showResult(questions,underHalfCorrect));
 
 
 
