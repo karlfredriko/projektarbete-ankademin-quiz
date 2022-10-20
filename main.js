@@ -33,8 +33,8 @@ const questions = [{
 }, {
     no: 4,
     q: "'Blaufränkisch' är en druva som är vanligast var?",
-    a: [{ text: "Ungern", points: 10 },
-    { text: "Österike", points: 1 },
+    a: [{ text: "Österike", points: 1 },
+        { text: "Ungern", points: 10 },
     { text: "Slovakien", points: 1 },
     { text: "Kroatien", points: 1 }
     ],
@@ -127,11 +127,11 @@ const allCorrect = [
     { answer: 10 },
     { answer: 10 },
     { answer: 10 },
+    { answer: 5 },
     { answer: 10 },
     { answer: 10 },
-    { answer: 10 },
-    { answer: 10 },
-    { answer: 10 },
+    { answer: 9 },
+    { answer: 9 },
     { answer: 10 }
 ];
 
@@ -156,9 +156,9 @@ let displayQuiz = (arr) => {
     arr.forEach(i => {
         let newDiv = document.createElement("div");
         newDiv.id = i.no;
-        newDiv.classList.add("question-frame")
+        newDiv.classList.add("question-frame");
         let p = document.createElement("p");
-        p.innerText = `${i.no+1}. ${i.q}`;
+        p.innerText = `${i.no + 1}. ${i.q}`;
         newDiv.appendChild(p);
         for (let num = 0; num < i.a.length; num++) {
             let input = document.createElement("input");
@@ -182,62 +182,74 @@ let displayQuiz = (arr) => {
         submitBtn.innerText = "Spara svar";
         newDiv.append(br);
         newDiv.append(submitBtn);
-        div.append(newDiv)
+        div.append(newDiv);
         submitBtn.addEventListener("click", () => {
             saveAnswers(userAnswers);
         });
     });
     let br = document.createElement("br");
     let showResultBtn = document.createElement("button");
-    showResultBtn.innerText = "Visa resultat!"
+    showResultBtn.innerText = "Visa resultat!";
     div.append(br);
     div.append(showResultBtn);
     showResultBtn.addEventListener("click", () => {
-        showResult(questions,userAnswers);
-    })
+        showResult(questions, userAnswers);
+    });
 };
 // displaying score and coloring text
 // function takes two arrays as arguments.
-let showResult = (q,a) => {
+let showResult = (q, a) => {
     div.innerHTML = "";
     let totalScore = 0;
-    a.forEach((i) => totalScore += i.answer);
+    a.forEach((i) => {
+        if (i.answer === 10) {
+            totalScore += i.answer;
+        }
+    });
     console.log(totalScore);
+    let p = document.createElement("p");
+    let h2 = document.createElement("h2")
+    p.innerText = "Du fick: ";
+    div.append(p);
+    div.append(h2);
+    if (totalScore < 50) {
+        h2.innerText = "Underkänt:("
+        h2.style.color = "darkred";
+    } else if (totalScore < 75) {
+        h2.innerText = "Godkänt"
+        h2.style.color = "darkorange";
+    } else {
+        h2.innerText = "Mycket väl Godkänt!"
+        h2.style.color = "darkgreen";
+    }
     q.forEach((i) => {
         //console.log(a[i.no].answer)
         if (a[i.no].answer === 10) {
             let question = document.createElement("p");
-            question.innerText = ` ${i.q}
-            Rätt svar!`
+            question.innerText = `${i.no + 1}. ${i.q}
+            Rätt svar!`;
             div.append(question);
         } else {
             let question = document.createElement("p");
-            question.innerText = ` ${i.q}
-            Fel svar!`
+            i.a.forEach((i) => {
+                if (i.points === 10) {
+                    let correctAnswer = i.text;
+                    return correctAnswer;
+                };
+                return correctAnswer;
+            });
+            question.innerText = `${i.no + 1}. ${i.q}
+            Fel svar!
+            Rätt svar är: ${correctAnswer}`;
             div.append(question);
         }
-    })
-    let p = document.createElement("p");
-    p.setAttribute("id", "result");
-    if (totalScore<50) {
-        p.innerText = "Du fick Underkänt, testa igen!";
-        p.style.color = "red";
-        div.append(p);
-    } else if (totalScore < 75) {
-        p.innerText = "Du fick Godkänt";
-        p.style.color = "yellow";
-        div.append(p);
-    } else {
-        p.innerText = "Du fick Mycket väl godkänt, Bravo!";
-        p.style.color = "green";
-        div.append(p);
-    }
-}
+    });
+};
 // saving results in array
 let saveAnswers = (arr) => {
     let parent = event.target.parentNode;
     let nodeList = parent.childNodes;
-    console.log("running saveAnswers()")
+    console.log("running saveAnswers()");
     if (arr[parent.id].answer === 0) {
         for (let i = 0; i < nodeList.length; i++) {
             if (nodeList[i].checked && nodeList[i].type === "radio") {
@@ -255,8 +267,7 @@ let saveAnswers = (arr) => {
 };
 //adding function to startBtn
 startBtn.addEventListener("click", () =>
-    //displayQuiz(questions)
-    showResult(questions,allCorrect));
-
+    displayQuiz(questions));
+    //showResult(questions, allCorrect));
 
 
