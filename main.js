@@ -9,7 +9,7 @@ const questions = [{
     multi: false
 }, {
     no: 1,
-    q: "Vilka av dessa druvor är gröna?",
+    q: "Vilka av dessa druvor är gröna? Markera alla rätta svar.",
     a: [{ text: "Chardonnay", points: 3 },
     { text: "Cabernet Sauvignon", points: 1 },
     { text: "Vinho Verde", points: 3 },
@@ -32,7 +32,7 @@ const questions = [{
     multi: false
 }, {
     no: 4,
-    q: "'Blaufränkisch' är en druva som är vanligast var?",
+    q: "'Blaufränkisch' druvan är vanligast i vilket land??",
     a: [{ text: "Österike", points: 1 },
         { text: "Ungern", points: 10 },
     { text: "Slovakien", points: 1 },
@@ -50,7 +50,7 @@ const questions = [{
     multi: false
 }, {
     no: 6,
-    q: "Vart kommer en Cava ifrån?",
+    q: "Vilket land kommer en Cava ifrån?",
     a: [{ text: "Spanien", points: 10 },
     { text: "Katalonien", points: 1 },
     { text: "Ungern", points: 1 },
@@ -98,40 +98,16 @@ const userAnswers = [
     { answer: 0 },
     { answer: 0 }
 ];
-const overHalfCorrect = [
+const testArray = [
+    { answer: 10 },
+    { answer: 1 },
+    { answer: 10 },
+    { answer: 10 },
+    { answer: 1 },
     { answer: 10 },
     { answer: 10 },
     { answer: 10 },
     { answer: 10 },
-    { answer: 10 },
-    { answer: 10 },
-    { answer: 0 },
-    { answer: 0 },
-    { answer: 0 },
-    { answer: 0 }
-];
-const underHalfCorrect = [
-    { answer: 10 },
-    { answer: 10 },
-    { answer: 10 },
-    { answer: 10 },
-    { answer: 0 },
-    { answer: 0 },
-    { answer: 0 },
-    { answer: 0 },
-    { answer: 0 },
-    { answer: 0 }
-];
-const allCorrect = [
-    { answer: 10 },
-    { answer: 10 },
-    { answer: 10 },
-    { answer: 10 },
-    { answer: 5 },
-    { answer: 10 },
-    { answer: 10 },
-    { answer: 9 },
-    { answer: 9 },
     { answer: 10 }
 ];
 
@@ -150,9 +126,13 @@ darkmodeBtn.addEventListener("click", () => {
     document.body.classList.toggle("dark-mode");
 });
 //displaying quiz
-let displayQuiz = (arr) => {
+let displayQuiz = (arr,answers) => {
     console.log("running displayQuiz()");
     div.innerHTML = "";
+    startBtn.innerText = "Starta om";
+    answers.forEach(i => {
+        i.answer = 0;
+    })
     arr.forEach(i => {
         let newDiv = document.createElement("div");
         newDiv.id = i.no;
@@ -162,6 +142,7 @@ let displayQuiz = (arr) => {
         newDiv.appendChild(p);
         for (let num = 0; num < i.a.length; num++) {
             let input = document.createElement("input");
+            // checking if question have several correct answers
             if (!i.multi) {
                 input.type = "radio";
             } else {
@@ -196,12 +177,34 @@ let displayQuiz = (arr) => {
         showResult(questions, userAnswers);
     });
 };
+// saving answers in an array
+let saveAnswers = (arr) => {
+    let parent = event.target.parentNode;
+    let nodeList = parent.childNodes;
+    console.log("running saveAnswers()");
+    // refers to the id of the div to know witch iteration of questions/answers to check and if that question remains unanswered.
+    if (arr[parent.id].answer === 0) {
+        for (let i = 0; i < nodeList.length; i++) {
+            if (nodeList[i].checked && nodeList[i].type === "radio") {
+                arr[parent.id].answer = +nodeList[i].value;
+                event.target.remove();
+            } else if (nodeList[i].checked && nodeList[i].type === "checkbox") {
+                arr[parent.id].answer += +nodeList[i].value;
+                event.target.remove();
+            } else if (i === nodeList.length - 1 && arr[parent.id].answer === 0) {
+                //if question is unanswered and the last iteration give friendly reminder.
+                alert("Du måste svara;)");
+            }
+        };
+    };
+};
 // displaying score and coloring text
 // function takes two arrays as arguments.
 let showResult = (q, a) => {
     div.innerHTML = "";
     let totalScore = 0;
     a.forEach((i) => {
+        // adds correctly answered questions
         if (i.answer === 10) {
             totalScore += i.answer;
         }
@@ -209,9 +212,10 @@ let showResult = (q, a) => {
     console.log(totalScore);
     let p = document.createElement("p");
     let h2 = document.createElement("h2")
-    p.innerText = "Du fick: ";
+    p.innerText = `Du fick: ${totalScore/10}/10 poäng!`;
     div.append(p);
     div.append(h2);
+    //checks total score and tells user points and grade.
     if (totalScore < 50) {
         h2.innerText = "Underkänt:("
         h2.style.color = "darkred";
@@ -223,51 +227,34 @@ let showResult = (q, a) => {
         h2.style.color = "darkgreen";
     }
     q.forEach((i) => {
-        //console.log(a[i.no].answer)
+        // tells the user witch questions were correct/incorrect.
+        let question = document.createElement("p");
+        let answer = document.createElement("p");
+        let correctAnswer = document.createElement("p");
+        question.innerText = `${i.no + 1}. ${i.q}`;
+        div.append(question);
         if (a[i.no].answer === 10) {
-            let question = document.createElement("p");
-            question.innerText = `${i.no + 1}. ${i.q}
-            Rätt svar!`;
-            div.append(question);
-        } else {
-            let question = document.createElement("p");
+            answer.innerText = `Rätt`;
+            answer.style.fontWeight = "bold"
+            div.append(answer)
+        } else if (a[i.no].answer !== 10) {
+            // more detailed answer if incorrect
+            answer.innerHTML = `<strong>Fel</strong><br>Rätt svar är:`;
+            div.append(answer)
             i.a.forEach((i) => {
                 if (i.points === 10) {
-                    let correctAnswer = i.text;
-                    return correctAnswer;
-                };
-                return correctAnswer;
-            });
-            question.innerText = `${i.no + 1}. ${i.q}
-            Fel svar!
-            Rätt svar är: ${correctAnswer}`;
-            div.append(question);
+                    correctAnswer.innerText = `${i.text}`;
+                } else if (i.points === 3 || i.points === 4) {
+                    correctAnswer.textContent += `${i.text}, `;
+                }
+                div.append(correctAnswer);
+            })
         }
     });
 };
-// saving results in array
-let saveAnswers = (arr) => {
-    let parent = event.target.parentNode;
-    let nodeList = parent.childNodes;
-    console.log("running saveAnswers()");
-    if (arr[parent.id].answer === 0) {
-        for (let i = 0; i < nodeList.length; i++) {
-            if (nodeList[i].checked && nodeList[i].type === "radio") {
-                arr[parent.id].answer = +nodeList[i].value;
-                event.target.remove();
-            } else if (nodeList[i].checked && nodeList[i].type === "checkbox") {
-                arr[parent.id].answer += +nodeList[i].value;
-                event.target.remove();
-            } else if (i === nodeList.length - 1 && arr[parent.id].answer === 0) {
-                alert("Du måste svara;)");
-            }
-        };
-        //console.log(userAnswer);
-    };
-};
 //adding function to startBtn
 startBtn.addEventListener("click", () =>
-    displayQuiz(questions));
-    //showResult(questions, allCorrect));
+    displayQuiz(questions,userAnswers));
+    //showResult(questions, testArray));
 
 
