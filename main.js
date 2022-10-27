@@ -1,4 +1,4 @@
-const questions = [{
+const wineQuestions = [{
     no: 0,
     q: "Vilken druva är troligtvis ett vin från Etna gjort av?",
     a: [{ text: "Pinot Noir", points: 1 },
@@ -108,7 +108,7 @@ const testArray = [
     { answer: 10 },
     { answer: 10 },
     { answer: 10 },
-    { answer: 10 }
+    { answer: 9 }
 ];
 
 console.log("JS is present.");
@@ -126,21 +126,28 @@ darkmodeBtn.addEventListener("click", () => {
     document.body.classList.toggle("dark-mode");
 });
 //displaying quiz
-let displayQuiz = (arr,answers) => {
+// skapar en funktion med två parametrar.
+let displayQuiz = (questions,answers) => {
     console.log("running displayQuiz()");
+    //tömmer diven, ändrar knapp text, sätter användarens svar till 0, 
+    //för att kunna köra quizet flera ggr
     div.innerHTML = "";
     startBtn.innerText = "Starta om";
     answers.forEach(i => {
         i.answer = 0;
     })
-    arr.forEach(i => {
+    questions.forEach(i => {
+        //loopar igenom frågorna. och skapar en ny div som får ett specifikt id.
         let newDiv = document.createElement("div");
         newDiv.id = i.no;
+        // ger den en klass och döljer ramen.
         newDiv.classList.add("question-frame");
         let p = document.createElement("p");
+        //skriver ut själva frågan och appendar i en ny div.
         p.innerText = `${i.no + 1}. ${i.q}`;
         newDiv.appendChild(p);
         for (let num = 0; num < i.a.length; num++) {
+            // sen iom att det finns flera frågor i en array med objekt inuti arrayen, loopar jag igen
             let input = document.createElement("input");
             // checking if question have several correct answers
             if (!i.multi) {
@@ -148,6 +155,8 @@ let displayQuiz = (arr,answers) => {
             } else {
                 input.type = "checkbox";
             }
+            // och skapar alla inputsen med lables, sätter values och svarsalternativ,
+            // och appendar, tills att alla svarsalternativ är klara.
             let label = document.createElement("label");
             input.name = "answer";
             input.id = `answer${num}`;
@@ -158,12 +167,15 @@ let displayQuiz = (arr,answers) => {
             newDiv.append(input);
             newDiv.append(label);
         };
+        // nu skapar vi knappen för att spara svaret, och den kommer ligga i den nya diven.
         let submitBtn = document.createElement("button");
         let br = document.createElement("br");
         submitBtn.innerText = "Spara svar";
         newDiv.append(br);
         newDiv.append(submitBtn);
         div.append(newDiv);
+        // sen har jag skapat en funktion som tittar på sin parent, som då är den specifika diven
+        // och loopar igenom sin parents, children.
         submitBtn.addEventListener("click", () => {
             saveAnswers(userAnswers);
         });
@@ -254,7 +266,7 @@ let showResult = (q, a) => {
 };
 //adding function to startBtn
 startBtn.addEventListener("click", () =>
-    displayQuiz(questions,userAnswers));
-    //showResult(questions, testArray));
+    displayQuiz(wineQuestions,userAnswers));
+    //showResult(wineQuestions, testArray));
 
 
