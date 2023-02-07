@@ -8,9 +8,10 @@ body {
 }
 div {
     border: 5px dotted black;
-    margin: 20px;
     padding: 10px;
     font-family: comic sans ms;
+    max-width: 80%;
+    margin: auto;
 }
 .question-frame{
     border: hidden;
@@ -22,4 +23,7 @@ div {
 }
 .div-mode {
     border: 5px dotted #f6e4ad;
+}
+#start-btn {
+    margin-bottom: 1rem;
 }
